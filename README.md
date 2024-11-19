@@ -2,6 +2,15 @@
 
 Welcome to the PPoPP Contest on LLM-based Parallel Programming (LLM4PP @ PPoPP 2025)!
 
+* [Introduction](#introduction)
+* [Objective](#objective)
+* [Problem Definition](#problem-definition)
+* [Scoring](#scoring)
+* [Starting Toolkit](#starting-toolkit)
+* [Submission Guidelines](#submission-guidelines)
+* [References](#references)
+* [Contact](#contact)
+  
 <!--Starting Toolkit for the LLM4PP competition, modified from the starting toolkit from [LLM4HWDesign](https://nvlabs.github.io/LLM4HWDesign/problem.html) is [here](https://github.com/GATECH-EIC/LLM4HWDesign_Starting_Toolkit).-->
 
 ## Introduction
@@ -34,17 +43,30 @@ Participants' contributions will be evaluated based on the improvement their dat
 
 ## Scoring
 
-## Base Dataset
+### Base Dataset
 The base dataset used in the contest is our [LLM4PP dataset](https://huggingface.co/datasets/speedcode/LLM4PP_dataset) from [Leetcode problems](https://leetcode.com/problemset/). 
 For your submitted data, please follow the same format as the [LLM4PP dataset](https://huggingface.co/datasets/speedcode/LLM4PP_dataset). 
 
-## Toolkit Release Progress
+## Starting Toolkit
+
+To get started, participants are provided the starting toolkit, which is this github repository.
+It includes (1) an existing dataset as the base dataset, 
+(2) an example dataset of parallel code from external sources providing the format example of participants' submission, 
+(3) a codebase to fine-tune a specific LLM with the base dataset and the example submission dataset, 
+(4) an evaluation script to measure the how the example submission dataset mitigate the bias of the base dataset.
+
+<!--
+and (5) the deduplication codebase we will use to duplicate the repeated data samples. 
+Participants are expected to just replace the example submission dataset with their own collected datasets and get the corresponding metric from the starting toolkit to further improve their datasets during Phase I.
+-->
+
+### Toolkit Release Progress
 <!-- - [x] **Deduplication**: Scripts to identify and remove duplicate samples from the dataset. -->
-- [x] **Fine-tuning**: Scripts to fine-tune a pretrained language model on the MG-Verilog dataset.
+- [x] **Fine-tuning**: Scripts to fine-tune a pretrained language model on the base dataset.
 - [x] **Evaluation**: Tools to evaluate the performance of the fine-tuned model using standard metrics.
 
 
-## Setup Environment
+### Setup Environment
 
 We assume CUDA 12.1. (Only needed if you want to do fine-tuning and evaluation on your own.)
 
@@ -59,7 +81,7 @@ python minhash.py
 ```
 -->
 
-## Evaluation
+### Evaluation
 
 The following shows an example on how to evaluate your fine-tuned model using ParEval.
 
