@@ -5,9 +5,9 @@ Welcome to the PPoPP Contest on LLM-based Parallel Programming (LLM4PP @ PPoPP 2
 * [Introduction](#introduction)
 * [Objective](#objective)
 * [Problem Definition](#problem-definition)
-* [Scoring](#scoring)
 * [Starting Toolkit](#starting-toolkit)
 * [Submission Guidelines](#submission-guidelines)
+* [Scoring](#scoring)
 * [References](#references)
 * [Contact](#contact)
   
@@ -33,82 +33,50 @@ This shortage thus significantly impedes progress in LLM-based parallel code gen
 
 ## Objective
 The goal of this contest is to 
-(1) explore methods (e.g., prompting and finetuning) that leverages LLMs to solve parallel programming problems.
-(2) collect or generate parallel code samples with data cleaning techniques, to facilitate the development of more effective LLM-based parallel code generation through fine-tuning. 
+(1) explore new prompting strategies or develop new workflows.
+(2) develop new LLM fine-tuning strategies.
+(3) collect or generate new code samples.
+
 <!--enrich the current parallel code dataset to a large-scale, high-quality open-source dataset, facilitating the development of more effective LLM-based parallel programming through fine-tuning. 
 Participants are asked to (1) collect or generate parallel code samples and (2) enhance the dataset quality through data cleaning and label generation techniques. 
 Participants' contributions will be evaluated based on the improvement their data brings to the fine-tuned LLM.-->
 
 ## Problem Definition
-
-## Scoring
-
-### Base Dataset
-The base dataset used in the contest is our [LLM4PP dataset](https://huggingface.co/datasets/speedcode/LLM4PP_dataset) from [Leetcode problems](https://leetcode.com/problemset/). 
-For your submitted data, please follow the same format as the [LLM4PP dataset](https://huggingface.co/datasets/speedcode/LLM4PP_dataset). 
+The task is code optimization. Given a piece of source code in C++, you are asked to optimize the code to make it run faster. We want to use LLMs to aid us in this task. The task can be tackled in two different ways.
+* Use a closed-source LLM such as one from OpenAI, and obtain the optimized code using the provided APIs.
+* Use an open-source LLM such as CodeLlama or Deepseek-Coder, and obtain the optimized code by running inference locally.
 
 ## Starting Toolkit
-
-To get started, participants are provided the starting toolkit, which is this github repository.
-It includes (1) an existing dataset as the base dataset, 
-(2) an example dataset of parallel code from external sources providing the format example of participants' submission, 
-(3) a codebase to fine-tune a specific LLM with the base dataset and the example submission dataset, 
-(4) an evaluation script to measure the how the example submission dataset mitigate the bias of the base dataset.
+To get started, participants are provided the starting toolkit, which is this github repository. It contains two directories.
+(1) `model_eval` which includes code for evaluating your submission on the (ParEval)[https://github.com/parallelcodefoundry/ParEval] benchmark.
+(2) `model_finetune` which includes sample code for finetuning an open-source LLM.
 
 <!--
 and (5) the deduplication codebase we will use to duplicate the repeated data samples. 
 Participants are expected to just replace the example submission dataset with their own collected datasets and get the corresponding metric from the starting toolkit to further improve their datasets during Phase I.
 -->
 
-### Toolkit Release Progress
-<!-- - [x] **Deduplication**: Scripts to identify and remove duplicate samples from the dataset. -->
-- [x] **Fine-tuning**: Scripts to fine-tune a pretrained language model on the base dataset.
-- [x] **Evaluation**: Tools to evaluate the performance of the fine-tuned model using standard metrics.
+## Using a Closed-Source LLM
+See this [README](model_eval/README.md) for how to run a sample evaluation script on closed-source LLMs from OpenAI.
 
+## Using an Open-Source LLM
+One strategy to improve model performance on the code optimization task is to finetune a model on a code optimization dataset. We provide sample code for finetuning and evaluation described below.
 
-### Setup Environment
+### Finetuning
+See this [README](model_finetune/README.md) for how to run a finetuning script on open-source LLMs.
 
-We assume CUDA 12.1. (Only needed if you want to do fine-tuning and evaluation on your own.)
-
-`conda env create -f environment.yml`
-
-<!--
-## Deduplication
-The toolkit includes a deduplication script, which will be used to deduplicate each participant's data against the base dataset during the evaluation of Phase I.
-To run the deduplication script:
-```bash
-python minhash.py
-```
--->
-
-### Evaluation
-
-The following shows an example on how to evaluate your fine-tuned model using ParEval.
-
-**Prerequisites**:
-
-`export HF_TOKEN=your_huggingface_token`
-
-Prepare your fine-tuned model and tokenizer in HuggingFace format.
-
-```bash
-pip install -e pareval
-```
-
-**Evaluation Scripts**:
-
-```bash
-cd model_eval
-python evaluation.py <path_to_folder_with_your_model_and_config> <your_huggingface_token>
-#example: python evaluation.py "finetuned_model/" "hf-xxxxxxxxxx"
-```
-
-NOTE: The folder with your model and config should include two files (1) the generated pytorch_model.bin and 
-(2) the [model config](https://huggingface.co/deepseek-ai/deepseek-coder-6.7b-base/blob/main/config.json) of Deepseek Coder 6.7B from HuggingFace.
-
-The results will be printed and logged in `./model_eval/data/gen.jsonl`
+### Model Evaluation
+See this [README](model_eval/README.md) for how to run a sample evaluation script on closed-source LLMs from OpenAI.
 
 ## Submission Guidelines
+For each problem, submit a python file similar to `model_eval/evaluation.py` which is described in more detail [README](model_eval/README.md). If using open-source models, please also upload them to HuggingFace and make them public.
+
+For the first problem of using closed-source LLMs, please make sure that the costs incurred by running the script are reasonable. Specifics will be released at a later date.
+
+For the second problem of using open-source LLMs, please make sure that the code can be run on a single reasonably-sized GPU. Specifics will be released at a later date.
+
+## Scoring
+We provide an interface to [ParEval](https://github.com/parallelcodefoundry/ParEval) to test your implementation for both problems. However, your actual score will be based on our in-house Speedcode benchmark suite. We will release details about the benchmark suite soon.
 
 ## References
 1. [Gpt-4 technical report](https://arxiv.org/abs/2303.08774)
@@ -118,4 +86,6 @@ The results will be printed and logged in `./model_eval/data/gen.jsonl`
 
 ## Contact
 * Xuhao Chen, cxh@mit.edu 
-* Ryan Deng, ryandeng@mit.edu 
+* Ryan Deng, ryandeng@mit.edu
+* Tim Kaler, tfk@mit.edu
+
