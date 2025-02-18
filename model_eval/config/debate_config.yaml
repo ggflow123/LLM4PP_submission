@@ -1,0 +1,17 @@
+Rounds: 4
+k: 4
+temperature: 0.2
+reason_temperature: 0.2
+benchmark: ParEval
+mode: serial
+localhost: queue-g6e12xlarge-dy-g6e12xlarge-1
+
+
+logging:
+  version: 1
+  loggers:
+    main_logger:
+      level: DEBUG
+
+    class_logger:
+      level: INFO
